@@ -44,7 +44,7 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity  {
     Button button_clear_all;
     ImageButton button_add;
-    LinearLayout layout_mid, layoutTaskDone,LayoutForEditText;
+    LinearLayout layout_mid, layoutTaskDone;
     EditText editText;
     boolean creatingtask = false;
     LinkedHashMap<String, Task> tasks;
@@ -642,8 +642,8 @@ public class MainActivity extends AppCompatActivity  {
 
     public void close_text_editor(){
         editText = findViewById(R.id.text_editor);
-        LayoutForEditText  = findViewById(R.id.LayoutForEditText);
-        LayoutForEditText.removeView(editText);
+        layout_mid = findViewById(R.id.MID_2);
+        layout_mid.removeView(editText);
     }
 
     public void StartStopTextEditor(View v){
@@ -657,7 +657,7 @@ public class MainActivity extends AppCompatActivity  {
             }
             else {
                 create_new_task(s);
-                LayoutForEditText.removeView(editText);
+                layout_mid.removeView(editText);
             }
             creatingtask = false;
             return;
@@ -667,8 +667,8 @@ public class MainActivity extends AppCompatActivity  {
 
         creatingtask = true;
 
-        LinearLayout LayoutForEditText = findViewById(R.id.LayoutForEditText);
-        LayoutForEditText.addView(editText);
+        layout_mid = findViewById(R.id.MID_2);
+        layout_mid.addView(editText);
 
         setEditTextSettingsANDListener(editText);
 
@@ -699,7 +699,7 @@ public class MainActivity extends AppCompatActivity  {
                         create_new_task(s);
                     }
                     hideKeyboard(editText);
-                    LayoutForEditText.removeView(editText);
+                    layout_mid.removeView(editText);
                 }
 
                 return false;
