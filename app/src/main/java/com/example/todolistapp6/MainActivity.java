@@ -1,6 +1,9 @@
 package com.example.todolistapp6;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
@@ -34,6 +37,7 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity  {
     boolean creatingtask = false;
     LinkedHashMap<String, Task> tasks;
     TextView tv_pozostalo, textViewPriorytety, textView_pozostalo;
+    ImageButton buttonTopLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +90,49 @@ public class MainActivity extends AppCompatActivity  {
         updateTextViewDone();
         setTextViewPozostaleSettings();
 
+        setNavDrawer();
+
+
+    }
+
+    public void setNavDrawer(){
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        buttonTopLeft = findViewById(R.id.buttonTopLeft);
+        buttonTopLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                drawerLayout.openDrawer(GravityCompat.START);
+
+            }
+        });
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull @org.jetbrains.annotations.NotNull MenuItem item) {
+
+                int id = item.getItemId();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                switch (id)
+                {
+
+                    case R.id.Priorytety:
+                        Toast.makeText(MainActivity.this, "Priorytety is Clicked", Toast.LENGTH_SHORT).show();break;
+                    case R.id.Skrzynka_spraw:
+                        Toast.makeText(MainActivity.this, "Skrzynka_spraw is Clicked", Toast.LENGTH_SHORT).show();break;
+                    case R.id.Projekty:
+                        Toast.makeText(MainActivity.this, "Projekty is Clicked", Toast.LENGTH_SHORT).show();break;
+                    case R.id.Ustawienia:
+                        Toast.makeText(MainActivity.this, "Ustawienia is Clicked", Toast.LENGTH_SHORT).show();break;
+                    case R.id.kalendarz:
+                        Toast.makeText(MainActivity.this, "kalendarz is Clicked", Toast.LENGTH_SHORT).show();break;
+                    default:
+                        return true;
+
+                }
+                return true;
+            }
+        });
 
     }
 
