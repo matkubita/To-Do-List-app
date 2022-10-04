@@ -186,10 +186,13 @@
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:background="#BDBDBD"
+
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/my_navigation_items"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        app:itemHorizontalPadding="30dp"/>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

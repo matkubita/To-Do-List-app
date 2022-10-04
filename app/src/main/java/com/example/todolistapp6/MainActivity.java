@@ -2,6 +2,7 @@ package com.example.todolistapp6;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -334,7 +335,9 @@ public class MainActivity extends AppCompatActivity  {
 
     private void setLottieForLayoutTaskDoneLISTENER(LottieAnimationView lottie, Task task) {
         lottie.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f));
-        lottie.setAnimation(R.raw.checked_done);
+        lottie.setScaleX(2.5f);
+        lottie.setScaleY(2.5f);
+        lottie.setAnimation(R.raw.layouttaskdoneanimation);
 
 
         lottie.setOnClickListener(new View.OnClickListener() {
@@ -746,8 +749,8 @@ public class MainActivity extends AppCompatActivity  {
 
     public void close_text_editor(){
         editText = findViewById(R.id.text_editor);
-        layout_mid = findViewById(R.id.MID_2);
-        layout_mid.removeView(editText);
+        LayoutForEditText = findViewById(R.id.LayoutForEditText);
+        LayoutForEditText.removeView(editText);
     }
 
     public void StartStopTextEditor(View v){
@@ -787,6 +790,8 @@ public class MainActivity extends AppCompatActivity  {
 
         Typeface customfont = Typeface.createFromAsset(getAssets(), "fonts/dubai_regular.ttf");
         editText.setTypeface(customfont);
+        editText.setCompoundDrawables(AppCompatResources.getDrawable(this, R.drawable.cross),null,null,null);
+        editText.setCompoundDrawablesRelative(getResources().getDrawable(R.drawable.cross),null,null,null);
 
         editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
 
