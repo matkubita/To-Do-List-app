@@ -145,6 +145,8 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
+
+
     public void SetTaskDoneNew(Task task){
         layoutTaskDone = findViewById(R.id.LayoutTaskDone);
         layout_mid = findViewById(R.id.MID);
@@ -162,12 +164,16 @@ public class MainActivity extends AppCompatActivity  {
         update_text_view_pozostalo(tv_pozostalo);
 
 
-
-
     }
 
     public void setTaskDoneAndSave(Task task){
         task.isDone = true;
+        save_to_Shared_Pref(task);
+
+    }
+
+    public void setTaskNOTDoneAndSave(Task task){
+        task.isDone = false;
         save_to_Shared_Pref(task);
 
     }
@@ -211,12 +217,11 @@ public class MainActivity extends AppCompatActivity  {
 
         LinearLayout layout_task = new LinearLayout(this);
         LottieAnimationView lottie = new LottieAnimationView(this);
-//        MaterialButton ButtonTask = new MaterialButton(this,null, com.google.android.material.R.attr.materialButtonOutlinedStyle);
         Button ButtonTask = new Button(this);
         CheckBox checkBoxPriority = new CheckBox(this);
 
         setLayoutTaskSettings(layout_task);
-        setLOTTIETaskDoneSettingsANDListener(lottie, task);
+
         setButtonTaskSettingsANDListener(ButtonTask, task);
         setCheckBoxPrioritySettingsANDListener(checkBoxPriority, task);
 
@@ -229,9 +234,10 @@ public class MainActivity extends AppCompatActivity  {
 
         if (task.isDone){
             layout_task.setAlpha(0.4f);
-            lottie.setSpeed(20f);
-            lottie.playAnimation();
-            lottie.setEnabled(false);
+            setLottieForLayoutTaskDoneLISTENER(lottie, task);
+        }
+        else {
+            setLottieForLayoutMIDLISTENER(lottie, task);
         }
         if (task.isPriority){
             checkBoxPriority.setChecked(true);
@@ -240,10 +246,7 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
-
-    public void setLOTTIETaskDoneSettingsANDListener(LottieAnimationView lottie, Task task){
-
-
+    private void setLottieForLayoutMIDLISTENER(LottieAnimationView lottie, Task task) {
         lottie.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f));
         lottie.setAnimation(R.raw.checked_done);
 
@@ -259,18 +262,14 @@ public class MainActivity extends AppCompatActivity  {
         lottie.addAnimatorListener(new Animator.AnimatorListener(){
             @Override
             public void onAnimationStart(Animator animator) {
-                MakeLayoutFadeOutFROMTask(task);
+                layout_mid = findViewById(R.id.MID);
+                MakeLayoutFadeOutFROMTask(task, layout_mid);
 
             }
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                if (task.isDone){
-                    //
-                }
-                else {
-                    SetTaskDoneNew(task);
-                }
+                SetTaskDoneNew(task);
             }
 
             @Override
@@ -283,9 +282,66 @@ public class MainActivity extends AppCompatActivity  {
 
             }
         });
-
-
     }
+
+    private void setLottieForLayoutTaskDoneLISTENER(LottieAnimationView lottie, Task task) {
+        lottie.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f));
+        lottie.setAnimation(R.raw.checked_done);
+
+
+        lottie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lottie.setSpeed(3);
+                lottie.playAnimation();
+
+            }
+        });
+        lottie.addAnimatorListener(new Animator.AnimatorListener(){
+            @Override
+            public void onAnimationStart(Animator animator) {
+                layoutTaskDone = findViewById(R.id.LayoutTaskDone);
+                MakeLayoutFadeOutFROMTask(task, layoutTaskDone);
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                SetTaskNOTDone(task);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+    }
+
+
+    public void SetTaskNOTDone(Task task){
+        layoutTaskDone = findViewById(R.id.LayoutTaskDone);
+        layout_mid = findViewById(R.id.MID);
+
+        setTaskNOTDoneAndSave(task);
+
+        removeTaskFromLayout(task, layoutTaskDone);
+
+        AddLayoutWithButtons(task, layout_mid);
+
+
+
+        //upgrade pozostałe
+        tv_pozostalo = findViewById(R.id.textView_pozostalo);
+        update_text_view_pozostalo(tv_pozostalo);
+    }
+
+
+
 
     public void setCheckBoxPrioritySettingsANDListener(CheckBox checkBox, Task task ){
 
@@ -427,15 +483,15 @@ public class MainActivity extends AppCompatActivity  {
 
 
 
-    public void MakeLayoutFadeOutFROMTask(Task task){
-        layout_mid = findViewById(R.id.MID);
+    public void MakeLayoutFadeOutFROMTask(Task task, LinearLayout linearLayout){
+
 
         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
         anim.setDuration(1000);
         anim.setRepeatMode(Animation.REVERSE);
 
-        for (int i = 0 ; i< layout_mid.getChildCount(); i++){
-            LinearLayout layouts = (LinearLayout) layout_mid.getChildAt(i);
+        for (int i = 0 ; i< linearLayout.getChildCount(); i++){
+            LinearLayout layouts = (LinearLayout) linearLayout.getChildAt(i);
             for (int j = 0; j < layouts.getChildCount(); j ++){
                 if (layouts.getChildAt(j) instanceof Button){
                     Button btn = (Button) layouts.getChildAt(j);
