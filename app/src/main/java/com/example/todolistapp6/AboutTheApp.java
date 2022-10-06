@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import org.w3c.dom.Text;
 public class AboutTheApp extends AppCompatActivity {
     private static int[] images = {R.drawable.java, R.drawable.android_studio};
     private static String[] textImages = {"JAVA", "ANDROID STUDIO"};
+    ImageButton buttonBack2;
     private int imageNumber = 0;
     TextView TextViewDataRealizacji, textViewWykorzystaneTechnologie;
 
@@ -32,7 +34,19 @@ public class AboutTheApp extends AppCompatActivity {
         textViewWykorzystaneTechnologie = findViewById(R.id.textViewWykorzystaneTechnologie);
         updateTextViewWykorzystaneTechnologie(textViewWykorzystaneTechnologie);
 
+        setBackButtonListener();
 
+
+    }
+
+    public void setBackButtonListener(){
+        buttonBack2 = findViewById(R.id.buttonBack2);
+        buttonBack2.setOnClickListener(this::goBack);
+
+    }
+
+    private void goBack(View view) {
+        onBackPressed();
     }
 
     public void updateTextViewWykorzystaneTechnologie(TextView textView){

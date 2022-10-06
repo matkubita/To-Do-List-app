@@ -21,9 +21,11 @@ public class Task implements Serializable {
         this.isPriority = false;
     }
 
-    public String get_formated_date(){
-        String date = getDate().toString();
-        return "a";
+    public String get_formatted_date(){
+        String[] splited = date.toString().split("\\s+");
+        String data_new = splited[0] +" " + splited[1] +" " + splited[2];
+        return data_new;
+
     }
 
     public boolean isDone() {

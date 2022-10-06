@@ -60,14 +60,34 @@
                 android:checked="false" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/button_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/layout_task_bg"
-            android:text="17 Sie 2021"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:id="@+id/LayoutCategoryData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_text_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/layout_task_bg"
+                android:text="Button" />
+
+            <TextView
+                android:id="@+id/button_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/layout_task_bg"
+                android:gravity="center"
+                android:text="17 Sie 2021"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/text_comment"

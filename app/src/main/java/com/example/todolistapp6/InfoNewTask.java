@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +43,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class InfoNewTask extends AppCompatActivity {
-    TextView btn_nazwa, btn_data;
+    TextView btn_nazwa, btn_data, btn_text_category;
     EditText comment_edittext;
     LinearLayout layout_comments;
     LinkedHashMap<String, Task> tasks;
@@ -252,19 +254,29 @@ public class InfoNewTask extends AppCompatActivity {
 
     }
 
-    private void hideKeyboard(EditText editText) {
-        InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        manager.hideSoftInputFromWindow(editText.getApplicationWindowToken(),0);
+    public void showPopUpMenuForCategory(View v){
+        PopupMenu popupMenu = new PopupMenu(this, v, Gravity.CENTER);
+        popupMenu.getMenu().add("bonjourno");
+        popupMenu.inflate(R.menu.popupmenu_category);
+        popupMenu.show();
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.cat1:
+                        Toast.makeText(v.getContext(), "cat1", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.cat2:
+                        Toast.makeText(v.getContext(), "cat2", Toast.LENGTH_SHORT).show();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
     }
 
-    public void showKeyboard(EditText editText){
-        InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        manager.showSoftInput(editText.getRootView(), InputMethodManager.SHOW_IMPLICIT);
-        editText.requestFocus();
-
-    }
 
     public void update_task_info(Bundle savedInstanceState){
 
@@ -286,7 +298,7 @@ public class InfoNewTask extends AppCompatActivity {
         btn_data = findViewById(R.id.button_data);
         btn_nazwa = findViewById(R.id.button_nazwa);
 
-        btn_data.setText(task.getDate().toString());
+        btn_data.setText(task.get_formatted_date());
         btn_nazwa.setText(task.getTitle());
 
         //we need to add all comments to layout in order
@@ -307,6 +319,19 @@ public class InfoNewTask extends AppCompatActivity {
 
         setlottieTaskDoneSettings(task);
 
+        update_text_category(task);
+
+    }
+
+    public void update_text_category(Task task){
+        btn_text_category = findViewById(R.id.btn_text_category);
+        btn_text_category.setText(task.getCategory());
+        btn_text_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopUpMenuForCategory(view);
+            }
+        });
     }
 
 

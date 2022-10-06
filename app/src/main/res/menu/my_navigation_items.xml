@@ -3,27 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item
-        android:id="@+id/Priorytety"
-        android:icon="@drawable/priorityttt"
-        android:title="Priorytety"/>
 
-    <item
-        android:id="@+id/Skrzynka_spraw"
-        android:icon="@drawable/skrzynka_spraw"
-        android:title="Skrzynka Spraw"/>
-    <item
-        android:id="@+id/Projekty"
-        android:icon="@drawable/project"
-        android:title="Projekty"/>
-    <item
-        android:id="@+id/kalendarz"
-        android:icon="@drawable/calenda"
-        android:title="Kalendarz"/>
-    <item
-        android:id="@+id/Ustawienia"
-        android:icon="@drawable/settings"
-        android:title="Ustawienia"/>
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/Priorytety"
+            android:icon="@drawable/priorityttt"
+            android:title="Priorytety" />
+
+        <item
+            android:id="@+id/Skrzynka_spraw"
+            android:icon="@drawable/skrzynka_spraw"
+            android:title="Skrzynka Spraw"/>
+        <item
+            android:id="@+id/Projekty"
+            android:icon="@drawable/project"
+            android:title="Projekty"/>
+        <item
+            android:id="@+id/kalendarz"
+            android:icon="@drawable/calenda"
+            android:title="Kalendarz"/>
+        <item
+            android:id="@+id/Ustawienia"
+            android:icon="@drawable/settings"
+            android:title="Ustawienia"/>
+
+    </group>
+
+
+
 
 
 </menu>

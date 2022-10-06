@@ -22,8 +22,8 @@
         <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/drawable/testbuttoncombineshapeandselector.xml" value="0.17" />
         <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/drawable/testcheckboxpriority__bg.xml" value="0.1095" />
         <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/drawable/textlines.xml" value="0.217" />
-        <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/layout/activity_about_the_app.xml" value="0.4" />
-        <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/layout/activity_info_new_task.xml" value="0.2" />
+        <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/layout/activity_about_the_app.xml" value="0.2" />
+        <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/layout/activity_info_new_task.xml" value="0.176" />
         <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/layout/activity_splash.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/layout/activity_task_information.xml" value="0.144" />
@@ -33,9 +33,10 @@
         <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/layout/fragment_home.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/layout/nav_header.xml" value="0.4" />
         <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/layout/test.xml" value="0.33065236818588023" />
-        <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/menu/my_navigation_items.xml" value="0.4" />
+        <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/menu/my_navigation_items.xml" value="0.6" />
         <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/menu/navigation_drawer.xml" value="0.264" />
-        <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/menu/popupmenu.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/menu/popupmenu.xml" value="0.264" />
+        <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/menu/popupmenu_category.xml" value="0.20863616930312098" />
         <entry key="..\:/Users/Uzytkownik/AndroidStudioProjects/ToDolistApp6/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1595" />
       </map>
     </option>
