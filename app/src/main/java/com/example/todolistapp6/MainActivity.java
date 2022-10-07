@@ -48,7 +48,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity  {
     Button button_clear_all;
-    ImageButton button_add;
+    ImageButton button_add, btn_back_nav_draw;
     LinearLayout layout_mid, layoutTaskDone, LayoutForEditText;
     EditText editText;
     boolean creatingtask = false;
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+
     public void setNavDrawer(){
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.navigation_view);
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity  {
 
             }
         });
+        navigationView.setCheckedItem(R.id.Priorytety);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @org.jetbrains.annotations.NotNull MenuItem item) {
@@ -135,6 +137,14 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+        btn_back_nav_draw = findViewById(R.id.btn_back_nav_draw);
+        btn_back_nav_draw.setOnClickListener(this::hideNavDrawer);
+
+    }
+
+    public void hideNavDrawer(View v){
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     public void setTextViewPozostaleSettings(){
