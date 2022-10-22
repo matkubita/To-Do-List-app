@@ -96,6 +96,14 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+    public void openProjektActivity(){
+        Intent intent = new Intent(this, Projekty.class);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+    }
+
+
 
     public void setNavDrawer(){
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
@@ -120,15 +128,21 @@ public class MainActivity extends AppCompatActivity  {
                 {
 
                     case R.id.Priorytety:
-                        Toast.makeText(MainActivity.this, "Priorytety is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(MainActivity.this, "Priorytety is Clicked", Toast.LENGTH_SHORT).show();
+                        break;
                     case R.id.Skrzynka_spraw:
-                        Toast.makeText(MainActivity.this, "Skrzynka_spraw is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(MainActivity.this, "Skrzynka_spraw is Clicked", Toast.LENGTH_SHORT).show();
+                        break;
                     case R.id.Projekty:
-                        Toast.makeText(MainActivity.this, "Projekty is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(MainActivity.this, "Projekty is Clicked", Toast.LENGTH_SHORT).show();
+                        openProjektActivity();
+                        break;
                     case R.id.Ustawienia:
-                        Toast.makeText(MainActivity.this, "Ustawienia is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(MainActivity.this, "Ustawienia is Clicked", Toast.LENGTH_SHORT).show();
+                        break;
                     case R.id.kalendarz:
-                        Toast.makeText(MainActivity.this, "kalendarz is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(MainActivity.this, "kalendarz is Clicked", Toast.LENGTH_SHORT).show();
+                        break;
                     default:
                         return true;
 
@@ -137,8 +151,18 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
-        btn_back_nav_draw = findViewById(R.id.btn_back_nav_draw);
+        btn_back_nav_draw = findViewById(R.id.btn_back_nav_draw2);
         btn_back_nav_draw.setOnClickListener(this::hideNavDrawer);
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.S_V2)
+    public void showPopUpMenuProjects(View v){
+        PopupMenu popup = new PopupMenu(this,v, Gravity.CENTER);
+        popup.setForceShowIcon(true);
+
+        popup.inflate(R.menu.popupmenu);
+        popup.show();
 
     }
 
@@ -472,6 +496,9 @@ public class MainActivity extends AppCompatActivity  {
 
 
 
+
+
+
     @TargetApi(Build.VERSION_CODES.S_V2)
     public void showPopUpMenu(View v){
         PopupMenu popup = new PopupMenu(this, v, Gravity.CENTER);
@@ -584,6 +611,14 @@ public class MainActivity extends AppCompatActivity  {
         updateCheckBoxesPriority();
         //we need to move some tasks to LayoutTaskDone if it was pressed
         updateTasksLayout();
+
+        updateNavDrawer();
+
+    }
+
+    public void updateNavDrawer(){
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
     }
 
@@ -804,8 +839,10 @@ public class MainActivity extends AppCompatActivity  {
 
         Typeface customfont = Typeface.createFromAsset(getAssets(), "fonts/dubai_regular.ttf");
         editText.setTypeface(customfont);
-        editText.setCompoundDrawables(AppCompatResources.getDrawable(this, R.drawable.cross),null,null,null);
-        editText.setCompoundDrawablesRelative(getResources().getDrawable(R.drawable.cross),null,null,null);
+//        editText.setCompoundDrawables(getResources().getDrawable(R.drawable.cross), null, null, null);
+//        editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.cross, 0,0,0);
+//        editText.setCompoundDrawables(AppCompatResources.getDrawable(this, R.drawable.cross),null,null,null);
+//        editText.setCompoundDrawablesRelative(getResources().getDrawable(R.drawable.cross),null,null,null);
 
         editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
 

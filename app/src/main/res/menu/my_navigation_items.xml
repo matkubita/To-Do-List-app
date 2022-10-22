@@ -24,10 +24,12 @@
             android:id="@+id/kalendarz"
             android:icon="@drawable/calenda"
             android:title="Kalendarz"/>
+
         <item
             android:id="@+id/Ustawienia"
             android:icon="@drawable/settings"
             android:title="Ustawienia"/>
+
 
     </group>
 
