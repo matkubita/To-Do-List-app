@@ -49,6 +49,7 @@ public class InfoNewTask extends AppCompatActivity {
     LinkedHashMap<String, Task> tasks;
     CheckBox checkBoxpriority;
     ImageButton buttonback;
+    Project_fabryka project_fabryka;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +68,58 @@ public class InfoNewTask extends AppCompatActivity {
         setFontTextViewTask();
 
 
+    }
 
+    public Project_fabryka get_fabryka_from_SP(){
+        SharedPreferences mPrefs = getSharedPreferences("Shared Preferences",MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString("fabryka_projekty", "");
+        Type type = new TypeToken< Project_fabryka >() {}.getType();
+        project_fabryka = gson.fromJson(json, type);
+
+        return project_fabryka;
+    }
+
+    public void showPopUpMenuForCategory(View v){
+        PopupMenu popupMenu = new PopupMenu(this, v, Gravity.CENTER);
+
+        project_fabryka = get_fabryka_from_SP();
+
+        for (Project_fabryka.Project_single proj: project_fabryka.getLista_projektow()){
+            popupMenu.getMenu().add(proj.getName());
+        }
+
+        popupMenu.show();
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                String nazwa_projektu = menuItem.getTitle().toString();
+
+                Toast.makeText(v.getContext(), nazwa_projektu, Toast.LENGTH_SHORT).show();
+                changeProject_Task_assignment(nazwa_projektu);
+                switch (menuItem.getItemId()){
+                    case R.id.cat1:
+//                        Toast.makeText(v.getContext(), "cat1", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.cat2:
+//                        Toast.makeText(v.getContext(), "cat2", Toast.LENGTH_SHORT).show();
+                        return true;
+                    default:
+//                        Toast.makeText(v.getContext(), "default nic", Toast.LENGTH_SHORT).show();
+                        return false;
+                }
+            }
+        });
+    }
+
+    public void changeProject_Task_assignment(String nazwa_projektu){
+        Task task = get_Task();
+        task.setCategory(nazwa_projektu);
+        save_to_Shared_Pref(task);
+        update_text_category(task);
 
     }
+
 
     public void setlottieTaskDoneSettings(Task task ){
         LottieAnimationView lottieTaskDone = findViewById(R.id.lottieTaskDone);
@@ -115,8 +165,6 @@ public class InfoNewTask extends AppCompatActivity {
 
     }
 
-
-
     public void setFontTextViewTask(){
         btn_nazwa = findViewById(R.id.button_nazwa);
         Typeface customfont = Typeface.createFromAsset(getAssets(), "fonts/dubai_regular.ttf");
@@ -133,7 +181,6 @@ public class InfoNewTask extends AppCompatActivity {
         onBackPressed();
     }
 
-
     private void SetCheckBoxPrioritySettings(CheckBox checkBoxpriority, Task task) {
 
         checkBoxpriority.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -144,8 +191,6 @@ public class InfoNewTask extends AppCompatActivity {
             }
         });
     }
-
-
 
     public void set_edittext_settings(EditText editText){
         editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
@@ -176,7 +221,6 @@ public class InfoNewTask extends AppCompatActivity {
 
 
     }
-
 
     public void add_comment_to_layout(Comment comment){
         layout_comments = findViewById(R.id.linear_layout_2);
@@ -253,29 +297,6 @@ public class InfoNewTask extends AppCompatActivity {
         return get_task_from_SP(btn_nazwa.getText().toString());
 
     }
-
-    public void showPopUpMenuForCategory(View v){
-        PopupMenu popupMenu = new PopupMenu(this, v, Gravity.CENTER);
-        popupMenu.getMenu().add("bonjourno");
-        popupMenu.inflate(R.menu.popupmenu_category);
-        popupMenu.show();
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.cat1:
-                        Toast.makeText(v.getContext(), "cat1", Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.cat2:
-                        Toast.makeText(v.getContext(), "cat2", Toast.LENGTH_SHORT).show();
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-    }
-
 
 
     public void update_task_info(Bundle savedInstanceState){

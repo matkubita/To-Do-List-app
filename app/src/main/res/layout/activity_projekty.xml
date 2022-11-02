@@ -93,6 +93,21 @@
                 app:srcCompat="@drawable/returnicon"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text=""
+                android:layout_weight="3"/>
+
+            <ImageButton
+                android:id="@+id/button_add2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/white_background"
+                app:srcCompat="@drawable/add"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
         </LinearLayout>
 
         <ScrollView
@@ -113,60 +128,12 @@
             tools:ignore="SpeakableTextPresentCheck">
 
             <LinearLayout
-                android:id="@+id/MID_22"
+                android:id="@+id/layout_projekty"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
-                <LinearLayout
-                    android:id="@+id/LayoutForEditText2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"></LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/MID2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.divider.MaterialDivider
-                        android:id="@+id/dividerDone2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:dividerColor="#333333" />
-
-                    <TextView
-                        android:id="@+id/textViewDone2"
-                        android:layout_width="90dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:background="@drawable/layout_task_bg"
-                        android:gravity="center"
-                        android:text="DONE"
-                        android:textStyle="italic" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/LayoutTaskDone2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-
             </LinearLayout>
-
-
         </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

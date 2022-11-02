@@ -92,7 +92,6 @@
                 android:text="TextView"
                 android:textAlignment="center"
                 android:textColor="#1E1D1D"
-
                 android:textSize="18sp" />
 
 

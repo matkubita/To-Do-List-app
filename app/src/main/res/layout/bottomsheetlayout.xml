@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg"
+    android:id="@+id/bottom_sheet_layout">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Nowy projekt"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="23dp" />
+
+    <EditText
+        android:id="@+id/edit_text_nazwa_proj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="Nazwa projektu"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/button_anuluj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anuluj"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/button_utworz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Utwórz"
+            android:layout_weight="1"/>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

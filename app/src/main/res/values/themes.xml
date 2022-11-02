@@ -23,6 +23,12 @@
     <style name="Theme.ToDolistApp6.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.ToDolistApp6.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="DialoAnim">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+
+    </style>
+
 
     <style name="line">
         <item name="android:background">@color/szary</item>
