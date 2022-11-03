@@ -13,21 +13,18 @@ import android.widget.LinearLayout;
 import com.airbnb.lottie.LottieAnimationView;
 
 public class SplashActivity extends AppCompatActivity {
-    ConstraintLayout layoutSplash;
+    private ConstraintLayout layoutSplash;
+    private LottieAnimationView lot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        LottieAnimationView lot = findViewById(R.id.lot);
+        initWidgets3();
+
         lot.setOnClickListener(this::breakAnimation);
-
-
-        layoutSplash = findViewById(R.id.layoutsplash);
         layoutSplash.setOnClickListener(this::breakAnimation);
-
-
         lot.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
@@ -53,6 +50,11 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void initWidgets3(){
+        lot = findViewById(R.id.lot);
+        layoutSplash = findViewById(R.id.layoutsplash);
     }
 
     public void breakAnimation(View v){

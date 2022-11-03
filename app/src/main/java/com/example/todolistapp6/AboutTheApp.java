@@ -15,9 +15,10 @@ import org.w3c.dom.Text;
 public class AboutTheApp extends AppCompatActivity {
     private static int[] images = {R.drawable.java, R.drawable.android_studio};
     private static String[] textImages = {"JAVA", "ANDROID STUDIO"};
-    ImageButton buttonBack2;
+    private ImageButton buttonBack2;
     private int imageNumber = 0;
-    TextView TextViewDataRealizacji, textViewWykorzystaneTechnologie;
+    private TextView textviewDatarezlizacji, textViewWykorzystaneTechnologie, textTechnology;
+    private ImageView images_technology;
 
 
     @Override
@@ -25,43 +26,40 @@ public class AboutTheApp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_the_app);
 
-        ImageView imageView = findViewById(R.id.images_technology);
-        imageView.setOnClickListener(this::updateImageANDText);
+        initWidgets2();
 
-        TextViewDataRealizacji = findViewById(R.id.textviewDatarezlizacji);
-        updateTextViewDataRealizacji(TextViewDataRealizacji);
-
-        textViewWykorzystaneTechnologie = findViewById(R.id.textViewWykorzystaneTechnologie);
-        updateTextViewWykorzystaneTechnologie(textViewWykorzystaneTechnologie);
-
-        setBackButtonListener();
-
+        images_technology.setOnClickListener(this::updateImageANDText);
+        updateTextViewDataRealizacji();
+        updateTextViewWykorzystaneTechnologie();
+        buttonBack2.setOnClickListener(this::goBack);
 
     }
 
-    public void setBackButtonListener(){
+    public void initWidgets2(){
+        images_technology = findViewById(R.id.images_technology);
+        textviewDatarezlizacji = findViewById(R.id.textviewDatarezlizacji);
+        textViewWykorzystaneTechnologie = findViewById(R.id.textViewWykorzystaneTechnologie);
         buttonBack2 = findViewById(R.id.buttonBack2);
-        buttonBack2.setOnClickListener(this::goBack);
-
+        textTechnology = findViewById(R.id.textTechnology);
     }
 
     private void goBack(View view) {
         onBackPressed();
     }
 
-    public void updateTextViewWykorzystaneTechnologie(TextView textView){
+    public void updateTextViewWykorzystaneTechnologie(){
         Typeface customfont = Typeface.createFromAsset(getAssets(), "fonts/dubai_regular.ttf");
-        textView.setTypeface(customfont);
+        textViewWykorzystaneTechnologie.setTypeface(customfont);
     }
 
-    public void updateTextViewDataRealizacji(TextView textView){
-        textView.setLines(2);
+    public void updateTextViewDataRealizacji(){
+        textviewDatarezlizacji.setLines(2);
         String sourceString = "<b>" + "Data realizacji aplikacji: " + "</b> " + "wrzesień 2022 "  +
                  "<b>" + "Autor: " + "</b>" + "Mateusz Kubita";
-        textView.setText(Html.fromHtml(sourceString));
+        textviewDatarezlizacji.setText(Html.fromHtml(sourceString));
 
         Typeface customfont = Typeface.createFromAsset(getAssets(), "fonts/dubai_regular.ttf");
-        textView.setTypeface(customfont);
+        textviewDatarezlizacji.setTypeface(customfont);
 
     }
 
@@ -77,14 +75,12 @@ public class AboutTheApp extends AppCompatActivity {
         imageNumber++;
 
     }
-    public void updateImage(){
-        ImageView imageView = findViewById(R.id.images_technology);
 
-        imageView.setImageResource(images[imageNumber % 2]);
+    public void updateImage(){
+        images_technology.setImageResource(images[imageNumber % 2]);
     }
 
     public void updateText(){
-        TextView textTechnology = findViewById(R.id.textTechnology);
         textTechnology.setText(textImages[imageNumber % 2]);
     }
 

@@ -46,11 +46,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Projekty extends AppCompatActivity {
-    ImageButton buttonTopLeft2, btn_back_nav_draw2, button_back2, button_add2;
-    Button button_anuluj, button_utworz;
-    EditText edit_text_nazwa_proj;
-    Project_fabryka project_fabryka;
-    LinearLayout layout_projekty;
+    private ImageButton buttonTopLeft2, btn_back_nav_draw2, button_back2, button_add2, buttonInfo2;
+    private Button button_anuluj, button_utworz;
+    private EditText edit_text_nazwa_proj;
+    private Project_fabryka project_fabryka;
+    private LinearLayout layout_projekty;
 
 
     @Override
@@ -58,17 +58,20 @@ public class Projekty extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projekty);
 
+        initWidgets4();
+
         //set on click listeners
         setNavDrawer();
 
-        button_back2 = findViewById(R.id.button_back2);
         button_back2.setOnClickListener(this::goBack);
+        button_add2.setOnClickListener(this::showBottomSheetDialog);
+        buttonInfo2.setOnClickListener(this::openAboutTheAppActivity);
 
-        setButtonAddProject();
+        initFabryka();
 
+    }
 
-        findViewById(R.id.buttonInfo2).setOnClickListener(this::openAboutTheAppActivity);
-
+    public void initFabryka(){
         //load fabrka from SP
         if (does_SP_contain_fabryka()){
             create_layouts_with_projects();
@@ -78,8 +81,15 @@ public class Projekty extends AppCompatActivity {
         }
     }
 
-    public void create_layouts_with_projects() {
+    public void initWidgets4(){
+        button_back2 = findViewById(R.id.button_back2);
+        buttonInfo2 = findViewById(R.id.buttonInfo2);
+        button_add2 = findViewById(R.id.button_add2);
+        buttonTopLeft2 = findViewById(R.id.buttonTopLeft22);
         project_fabryka = get_fabryka_from_SP();
+    }
+
+    public void create_layouts_with_projects() {
 
         ArrayList<Project_fabryka.Project_single> lista = project_fabryka.getLista_projektow();
 
@@ -92,24 +102,7 @@ public class Projekty extends AppCompatActivity {
         onBackPressed();
     }
 
-    public void openMainMenuPriorytety(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
-
-    public void setButtonAddProject(){
-        button_add2 = findViewById(R.id.button_add2);
-        button_add2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showBottomSheetDialog();
-            }
-        });
-    }
-
-
-    public void showBottomSheetDialog(){
+    public void showBottomSheetDialog(View v){
 
         Dialog bottomSheetDialog = new Dialog(this);
         bottomSheetDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -154,7 +147,6 @@ public class Projekty extends AppCompatActivity {
     public void openAboutTheAppActivity(View v){
         Intent intent = new Intent(this, AboutTheApp.class);
         startActivity(intent);
-
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
@@ -185,7 +177,6 @@ public class Projekty extends AppCompatActivity {
         layout_projekt.addView(layout_projekt_inner);
         layout_projekty.addView(layout_projekt);
     }
-
 
     public void set_text_view_settings(TextView textView){
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -224,8 +215,6 @@ public class Projekty extends AppCompatActivity {
 
         dialog_builder.create().show();
     }
-
-
 
     public void setColor(Drawable background, int kolorek){
 
@@ -326,7 +315,6 @@ public class Projekty extends AppCompatActivity {
 
     }
 
-
     public void setLayout_proj_settings(LinearLayout layout){
         layout.setBackgroundResource(R.drawable.layout_task_bg);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -339,29 +327,15 @@ public class Projekty extends AppCompatActivity {
     }
 
     public void save_to_SP(String name_projekt){
-        SharedPreferences mPrefs = getSharedPreferences("Shared Preferences",MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences("Shared Preferences", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
 
-        //bedziemy brac fabryke z SP i zapisywac nowa (nadpisywac)
-
-        if (does_SP_contain_fabryka()){
-            project_fabryka = get_fabryka_from_SP();
-            project_fabryka.dodaj_projekt(name_projekt,Color.BLUE);
-            String json = gson.toJson(project_fabryka);
-            prefsEditor.putString("fabryka_projekty", json);
-            prefsEditor.apply();
-        }
-        else {
-            //we must create the projket_fabryka and add the first one
-            //let's reset SP and load the list
-            create_empty_fabryka_SP();
-            project_fabryka = get_fabryka_from_SP();
-            project_fabryka.dodaj_projekt(name_projekt,Color.BLUE);
-            String json = gson.toJson(project_fabryka);
-            prefsEditor.putString("fabryka_projekty", json);
-            prefsEditor.apply();
-        }
+        project_fabryka = get_fabryka_from_SP();
+        project_fabryka.dodaj_projekt(name_projekt,Color.BLUE);
+        String json = gson.toJson(project_fabryka);
+        prefsEditor.putString("fabryka_projekty", json);
+        prefsEditor.apply();
 
     }
 
@@ -393,7 +367,6 @@ public class Projekty extends AppCompatActivity {
     public void setNavDrawer(){
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout222);
         NavigationView navigationView = findViewById(R.id.navigation_view2);
-        buttonTopLeft2 = findViewById(R.id.buttonTopLeft22);
         buttonTopLeft2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

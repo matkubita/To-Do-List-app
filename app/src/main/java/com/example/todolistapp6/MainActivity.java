@@ -1,11 +1,5 @@
 package com.example.todolistapp6;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -35,65 +29,80 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.divider.MaterialDivider;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity  {
-    Button button_clear_all;
-    ImageButton button_add, btn_back_nav_draw;
-    LinearLayout layout_mid, layoutTaskDone, LayoutForEditText;
-    EditText editText;
+    private ImageButton button_add, btn_back_nav_draw, buttonTopLeft, buttonInfo;
+    private LinearLayout layout_mid, LayoutTaskDone, LayoutForEditText;
+    private EditText editText;
+    private LinkedHashMap<String, Task> tasks;
+    private TextView textViewPriorytety, textView_pozostalo, textViewDone;
+    private DrawerLayout drawer_layout;
+    private NavigationView navigation_view;
+
     boolean creatingtask = false;
-    LinkedHashMap<String, Task> tasks;
-    TextView tv_pozostalo, textViewPriorytety, textView_pozostalo;
-    ImageButton buttonTopLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //set xml
         setContentView(R.layout.activity_main);
 
-        //set on click listeners
-        button_add = findViewById(R.id.button_add);
-        button_add.setOnClickListener(this::StartStopTextEditor);
-        ImageButton btn_info = findViewById(R.id.buttonInfo);
-        btn_info.setOnClickListener(this::openAboutTheAppActivity);
+        initWidgetsMain();
 
-        //keyboard settings
+        button_add.setOnClickListener(this::StartStopTextEditor);
+        buttonInfo.setOnClickListener(this::openAboutTheAppActivity);
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
+        initTasks();
 
-        //load all the tasks from SP
-        if (does_SP_contain_list()){
-            load_all_tasks();
-        }
-        else {
-            //let's reset SP and load the list
-            clear_shared_pref(button_clear_all);
-            create_empty_task_list_SP();
-        }
+        update_text_view_pozostalo();
 
-
-        tv_pozostalo = findViewById(R.id.textView_pozostalo);
-        update_text_view_pozostalo(tv_pozostalo);
-
-        updateTextViewPriorytety();
         updateTextViewDone();
-        setTextViewPozostaleSettings();
+        setTextViewPriorytety();
+        setTextViewPozostale();
 
         setNavDrawer();
 
 
+
+    }
+
+    public void initWidgetsMain(){
+        button_add = findViewById(R.id.button_add);
+        buttonInfo = findViewById(R.id.buttonInfo);
+        textView_pozostalo = findViewById(R.id.textView_pozostalo);
+        buttonTopLeft = findViewById(R.id.buttonTopLeft);
+        textViewPriorytety = findViewById(R.id.textViewPriorytety);
+        textViewDone = findViewById(R.id.textViewDone);
+
+        LayoutTaskDone = findViewById(R.id.LayoutTaskDone);
+        layout_mid = findViewById(R.id.layout_mid);
+        LayoutForEditText = findViewById(R.id.LayoutForEditText);
+        drawer_layout = findViewById(R.id.drawer_layout);
+        btn_back_nav_draw = findViewById(R.id.btn_back_nav_draw2);
+        navigation_view = findViewById(R.id.navigation_view);
+    }
+
+    public void initTasks(){
+
+        if (does_SP_contain_list()){
+            load_all_tasks();
+        }
+        else {
+            create_empty_task_list_SP();
+        }
     }
 
     public void openProjektActivity(){
@@ -103,27 +112,30 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+    public void openCalendarActivity(){
+        Intent intent = new Intent(this, Calendar_act.class);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
 
 
     public void setNavDrawer(){
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.navigation_view);
-        buttonTopLeft = findViewById(R.id.buttonTopLeft);
+
         buttonTopLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                drawerLayout.openDrawer(GravityCompat.START);
+                drawer_layout.openDrawer(GravityCompat.START);
 
             }
         });
-        navigationView.setCheckedItem(R.id.Priorytety);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        navigation_view.setCheckedItem(R.id.Priorytety);
+        navigation_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @org.jetbrains.annotations.NotNull MenuItem item) {
 
                 int id = item.getItemId();
-                drawerLayout.closeDrawer(GravityCompat.START);
+                drawer_layout.closeDrawer(GravityCompat.START);
                 switch (id)
                 {
 
@@ -142,6 +154,7 @@ public class MainActivity extends AppCompatActivity  {
                         break;
                     case R.id.kalendarz:
                         Toast.makeText(MainActivity.this, "kalendarz is Clicked", Toast.LENGTH_SHORT).show();
+                        openCalendarActivity();
                         break;
                     default:
                         return true;
@@ -151,7 +164,7 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
-        btn_back_nav_draw = findViewById(R.id.btn_back_nav_draw2);
+
         btn_back_nav_draw.setOnClickListener(this::hideNavDrawer);
 
     }
@@ -167,25 +180,21 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void hideNavDrawer(View v){
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        drawerLayout.closeDrawer(GravityCompat.START);
+        drawer_layout.closeDrawer(GravityCompat.START);
     }
 
-    public void setTextViewPozostaleSettings(){
-        textView_pozostalo = findViewById(R.id.textView_pozostalo);
+    public void setTextViewPozostale(){
         Typeface customfont = Typeface.createFromAsset(getAssets(), "fonts/dubai_regular.ttf");
         textView_pozostalo.setTypeface(customfont);
     }
 
-    public void updateTextViewPriorytety(){
-        textViewPriorytety = findViewById(R.id.textViewPriorytety);
+    public void setTextViewPriorytety(){
         Typeface customfont = Typeface.createFromAsset(getAssets(), "fonts/dubai_regular.ttf");
         textViewPriorytety.setTypeface(customfont);
 
     }
 
     public void updateTextViewDone(){
-        TextView textViewDone = findViewById(R.id.textViewDone);
         Typeface customfont = Typeface.createFromAsset(getAssets(), "fonts/dubai_regular.ttf");
         textViewDone.setTypeface(customfont);
     }
@@ -193,11 +202,10 @@ public class MainActivity extends AppCompatActivity  {
     public void openAboutTheAppActivity(View v){
         Intent intent = new Intent(this, AboutTheApp.class);
         startActivity(intent);
-
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
-    public void update_text_view_pozostalo(TextView tv_pozostalo){
+    public void update_text_view_pozostalo(){
         tasks = get_all_task_from_SP();
 
         int count = 0;
@@ -206,7 +214,7 @@ public class MainActivity extends AppCompatActivity  {
                 count++;
             }
         }
-        tv_pozostalo.setText("Pozostało: " + count);
+        textView_pozostalo.setText("Pozostało: " + count);
 
     }
 
@@ -231,20 +239,18 @@ public class MainActivity extends AppCompatActivity  {
 
 
     public void SetTaskDoneNew(Task task){
-        layoutTaskDone = findViewById(R.id.LayoutTaskDone);
-        layout_mid = findViewById(R.id.MID);
+
 
         setTaskDoneAndSave(task);
 
         removeTaskFromLayout(task, layout_mid);
 
-        AddLayoutWithButtons(task, layoutTaskDone);
+        AddLayoutWithButtons(task, LayoutTaskDone);
 
 
 
         //upgrade pozostałe
-        tv_pozostalo = findViewById(R.id.textView_pozostalo);
-        update_text_view_pozostalo(tv_pozostalo);
+        update_text_view_pozostalo();
 
 
     }
@@ -345,7 +351,6 @@ public class MainActivity extends AppCompatActivity  {
         lottie.addAnimatorListener(new Animator.AnimatorListener(){
             @Override
             public void onAnimationStart(Animator animator) {
-                layout_mid = findViewById(R.id.MID);
                 MakeLayoutFadeOutFROMTask(task, layout_mid);
 
             }
@@ -385,8 +390,7 @@ public class MainActivity extends AppCompatActivity  {
         lottie.addAnimatorListener(new Animator.AnimatorListener(){
             @Override
             public void onAnimationStart(Animator animator) {
-                layoutTaskDone = findViewById(R.id.LayoutTaskDone);
-                MakeLayoutFadeOutFROMTask(task, layoutTaskDone);
+                MakeLayoutFadeOutFROMTask(task, LayoutTaskDone);
 
             }
 
@@ -409,20 +413,17 @@ public class MainActivity extends AppCompatActivity  {
 
 
     public void SetTaskNOTDone(Task task){
-        layoutTaskDone = findViewById(R.id.LayoutTaskDone);
-        layout_mid = findViewById(R.id.MID);
 
         setTaskNOTDoneAndSave(task);
 
-        removeTaskFromLayout(task, layoutTaskDone);
+        removeTaskFromLayout(task, LayoutTaskDone);
 
         AddLayoutWithButtons(task, layout_mid);
 
 
 
         //upgrade pozostałe
-        tv_pozostalo = findViewById(R.id.textView_pozostalo);
-        update_text_view_pozostalo(tv_pozostalo);
+        update_text_view_pozostalo();
     }
 
 
@@ -528,11 +529,9 @@ public class MainActivity extends AppCompatActivity  {
 
         //remove from layout
         if (task.isDone){
-            layoutTaskDone = findViewById(R.id.LayoutTaskDone);
-            removeTaskFromLayout(task, layoutTaskDone);
+            removeTaskFromLayout(task, LayoutTaskDone);
         }
         else {
-            layout_mid = findViewById(R.id.MID);
             removeTaskFromLayout(task, layout_mid);
 
         }
@@ -540,7 +539,7 @@ public class MainActivity extends AppCompatActivity  {
 
         remove_from_SP(task);
 
-        update_text_view_pozostalo(findViewById(R.id.textView_pozostalo));
+        update_text_view_pozostalo();
 
 
 
@@ -548,8 +547,6 @@ public class MainActivity extends AppCompatActivity  {
 
 
     public void MakeLayoutFadeInLayoutTaskDone(Task task){
-
-        layoutTaskDone = findViewById(R.id.LayoutTaskDone);
 
         AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(1000);
@@ -617,14 +614,12 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void updateNavDrawer(){
-        NavigationView navigationView = findViewById(R.id.navigation_view);
-        navigationView.getMenu().getItem(0).setChecked(true);
+        navigation_view.getMenu().getItem(0).setChecked(true);
 
     }
 
     public void updateTasksLayout(){
 
-        layout_mid = findViewById(R.id.MID);
         for (int i = 0 ; i< layout_mid.getChildCount(); i++){
             LinearLayout LayoutTask = (LinearLayout) layout_mid.getChildAt(i);
             for (int j = 0; j < LayoutTask.getChildCount(); j ++){
@@ -646,7 +641,6 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void updateCheckBoxesPriority(){
-        layout_mid = findViewById(R.id.MID);
         for (int i = 0 ; i< layout_mid.getChildCount(); i++){
             LinearLayout LayoutTask = (LinearLayout) layout_mid.getChildAt(i);
             for (int j = 0; j < LayoutTask.getChildCount(); j ++){
@@ -667,9 +661,8 @@ public class MainActivity extends AppCompatActivity  {
 
         }
 
-        layoutTaskDone = findViewById(R.id.LayoutTaskDone);
-        for (int i = 0 ; i< layoutTaskDone.getChildCount(); i++){
-            LinearLayout LayoutTask = (LinearLayout) layoutTaskDone.getChildAt(i);
+        for (int i = 0 ; i< LayoutTaskDone.getChildCount(); i++){
+            LinearLayout LayoutTask = (LinearLayout) LayoutTaskDone.getChildAt(i);
             for (int j = 0; j < LayoutTask.getChildCount(); j ++){
                 if (LayoutTask.getChildAt(j) instanceof CheckBox){
                     Button btn = (Button) LayoutTask.getChildAt(j-1);
@@ -701,12 +694,10 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void delete_all_tasks(View v) {
-        layout_mid = findViewById(R.id.MID);
         layout_mid.removeAllViews();
         creatingtask = false;
-        clear_shared_pref(v);
         create_empty_task_list_SP();
-        update_text_view_pozostalo(findViewById(R.id.textView_pozostalo));
+        update_text_view_pozostalo();
     }
 
     public void open_task_info(View v){
@@ -735,7 +726,6 @@ public class MainActivity extends AppCompatActivity  {
         else {
             //we must create the tasks and add the first one
             //let's reset SP and load the list
-            clear_shared_pref(button_clear_all);
             create_empty_task_list_SP();
             tasks = get_all_task_from_SP();
             tasks.put(task.getTitle(),task);
@@ -762,32 +752,25 @@ public class MainActivity extends AppCompatActivity  {
         return tasks;
     }
 
-    public void clear_shared_pref(View v){
-        SharedPreferences mPrefs = getSharedPreferences("Shared Preferences",MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        prefsEditor.clear();
-        prefsEditor.apply();
-    }
 
     public void add_task(Task task){
-        button_add = findViewById(R.id.button_add);
+
 
         if (task.isDone){
-            AddLayoutWithButtons(task, findViewById(R.id.LayoutTaskDone));
+            AddLayoutWithButtons(task, LayoutTaskDone);
         }
         else {
-            AddLayoutWithButtons(task, findViewById(R.id.MID));
+            AddLayoutWithButtons(task, layout_mid);
         }
 
     }
 
     private void create_new_task(String task_name) {
 
-        button_add = findViewById(R.id.button_add);
         Task task = make_class_task(task_name);
         save_to_Shared_Pref(task);
-        AddLayoutWithButtons(task, findViewById(R.id.MID));
-        update_text_view_pozostalo(findViewById(R.id.textView_pozostalo));
+        AddLayoutWithButtons(task, layout_mid);
+        update_text_view_pozostalo();
 
     }
 
@@ -798,7 +781,6 @@ public class MainActivity extends AppCompatActivity  {
 
     public void close_text_editor(){
         editText = findViewById(R.id.text_editor);
-        LayoutForEditText = findViewById(R.id.LayoutForEditText);
         LayoutForEditText.removeView(editText);
     }
 
@@ -813,7 +795,6 @@ public class MainActivity extends AppCompatActivity  {
             }
             else {
                 create_new_task(s);
-                LayoutForEditText = findViewById(R.id.LayoutForEditText);
                 LayoutForEditText.removeView(editText);
             }
             creatingtask = false;
@@ -824,7 +805,6 @@ public class MainActivity extends AppCompatActivity  {
 
         creatingtask = true;
 
-        LayoutForEditText = findViewById(R.id.LayoutForEditText);
         LayoutForEditText.addView(editText);
 
         setEditTextSettingsANDListener(editText);
@@ -862,7 +842,6 @@ public class MainActivity extends AppCompatActivity  {
                         //aa
                     }
                     hideKeyboard(editText);
-                    LayoutForEditText = findViewById(R.id.LayoutForEditText);
                     LayoutForEditText.removeView(editText);
                 }
 

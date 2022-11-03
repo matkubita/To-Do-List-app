@@ -28,14 +28,6 @@ public class Task implements Serializable {
 
     }
 
-    public boolean isDone() {
-        return isDone;
-    }
-
-    public void setDone(boolean done) {
-        isDone = done;
-    }
-
     public boolean isPriority() {
         return isPriority;
     }
@@ -48,20 +40,12 @@ public class Task implements Serializable {
         return comments;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
-    }
-
     public void addComment(Comment comment){
         comments.add(comment);
     }
 
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getCategory() {
@@ -72,11 +56,4 @@ public class Task implements Serializable {
         this.category = category;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }
